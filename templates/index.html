@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}HeadlineX{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg bg-white shadow-sm border-bottom py-2">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand text-primary me-4" href="/">
+            HeadlineX
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+
+            <!-- Main Navigation -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item "><a class="nav-link {% if query == 'World' %}active{% endif %}"
+                        href="/?query=World">World</a></li>
+                <li class="nav-item "><a class="nav-link {%if query=='India'%}active{%endif%} "
+                        href="/?query=India">India</a></li>
+                <li class="nav-item "><a class="nav-link {%if query=='Technology'%}active{%endif%}"
+                        href="/?query=Technology">Tech</a></li>
+                <li class="nav-item  "><a class="nav-link {%if query=='Business'%}active{%endif%}"
+                        href="/?query=Business">Business</a></li>
+                <li class="nav-item "><a class="nav-link {%if query=='Science'%}active{%endif%}"
+                        href="/?query=Science">Science</a></li>
+                <li class="nav-item "><a class="nav-link {%if query=='Health'%}active{%endif%}"
+                        href="/?query=Health">Health</a></li>
+            </ul>
+
+            <!-- Search -->
+            <form class="d-flex me-3" method="GET">
+                <div class="input-group">
+                    <input class="form-control border-0 bg-light" type="search" name="query"
+                        placeholder="Search news...">
+
+                    <button type="submit" class="btn bg-light border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</nav>
+
+
+
+<div class="container py-5">
+
+    {% if top_article %}
+    <div class="hero-card mb-5">
+        {% if top_article.urlToImage %}
+        <img src="{{ top_article.urlToImage }}" class="hero-image" alt="{{ top_article.title }}">
+        {% endif %}
+        <div class="hero-overlay">
+            <span class="hero-badge">Top Story</span>
+            <h1 class="hero-title">
+                <a href="{{ top_article.url }}" target="_blank" class="text-decoration-none">
+                    {{ top_article.title }}
+                </a>
+            </h1>
+            <p class="hero-description">{{ top_article.description or "No description available." }}</p>
+            <a href="{{ top_article.url }}" target="_blank" class="btn btn-primary hero-btn">
+                Read Full Article →
+            </a>
+        </div>
+    </div>
+    {%endif%}
+
+    <h3 class="">Latest News</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for article in articles %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if article.urlToImage %}
+                <img src="{{ article.urlToImage }}" class="card-img-top" alt="News Image">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">
+                        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-dark">
+                            {{ article.title }}
+                        </a>
+                    </h5>
+                    <p class="card-text flex-grow-1">
+                        {{ article.description or "No description available." }}
+                    </p>
+                    <a href="{{ article.url }}" target="_blank" class="btn btn-outline-primary mt-auto">
+                        Read More →
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
